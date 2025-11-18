@@ -1,0 +1,103 @@
+1.
+¿Cuál es la razón principal por la que un componente de React debe devolver un único elemento raíz (como un <div> o un fragmento <>...</>)?
+
+Respuesta (A): Correcto. Esta es la razón fundamental. JSX necesita un único punto de entrada para cada componente para poder construir el árbol de elementos de manera coherente.
+
+Respuesta (B): Incorrecto. Aunque el rendimiento es importante, la razón principal no es la velocidad, sino la coherencia estructural. Para más detalles, revisa la Lección: Mi primer componente, alrededor del minuto 02:33.
+
+Respuesta (C): Incorrecto. Cualquier elemento puede ser estilizado, y el uso de un <div> o fragmento no está directamente relacionado con la capacidad de aplicar CSS. Para más detalles, revisa la Lección 4: Mi primer componente, alrededor del minuto 02:33.
+
+Respuesta (D): Incorrecto. Es más que una convención, es una regla técnica de JSX. Si intentas devolver múltiples elementos sin un envoltorio, la aplicación fallará al compilar. Para más detalles, revisa la Lección 4: Mi primer componente, alrededor del minuto 02:33.
+
+2.
+Verdadero o Falso: Las dependencias listadas en devDependencies dentro del archivo package.json se incluyen en el paquete final (bundle) que se despliega en producción.
+
+Respuesta (A): Incorrecto. Solo las dependencias listadas en dependencies se incluyen en el paquete de producción. Para un repaso, consulta la Lección: Estructura de directorios, en el minuto 05:41.
+
+Respuesta (B): Correcto. Las devDependencies son herramientas solo para el entorno de desarrollo (como Vite, ESLint, TypeScript) y no forman parte del código que se entrega al usuario final.
+
+3.
+Verdadero o Falso: Para pasar una prop de tipo número (number) a un componente en JSX, debes usar comillas, de esta manera:
+
+<MiComponente cantidad="10" />.
+
+Respuesta (A): Incorrecto. Usar comillas pasaría el valor "10" como un string. Para pasarlo como un número, la sintaxis correcta es con llaves: cantidad={10}. Revisa la Lección: Propiedades del componente - Props, en el minuto 07:31.
+
+Respuesta (B):Correcto. Los valores que no son strings (como números, booleanos u objetos) deben pasarse utilizando llaves {} para que JSX los interprete como expresiones de JavaScript.
+
+4.
+¿Por qué en JSX se debe usar className en lugar de class para asignar una clase de CSS a un elemento?
+
+Respuesta (A): Incorrecto. El rendimiento no es la razón. El motivo es evitar un conflicto con una palabra reservada del lenguaje JavaScript. Para más detalles, revisa la Lección: Archivos de CSS, en el minuto 04:22.
+
+Respuesta (B): Incorrecto. La capacidad de asignar clases dinámicamente viene del uso de llaves {}, no del nombre del atributo en sí. La razón es por ser una palabra reservada. Para más detalles, revisa la Lección: Archivos de CSS, en el minuto 04:22.
+
+Respuesta (C): Incorrecto. No es solo una preferencia, es un requisito técnico. Usar class directamente en JSX te dará una advertencia en la consola y no es la forma correcta de hacerlo. Para más detalles, revisa la Lección: Archivos de CSS, en el minuto 04:22.
+
+Respuesta (D): Correcto. Exacto. Para evitar conflictos con la palabra clave class de JavaScript, el equipo de React decidió usar className en su lugar para la manipulación de clases CSS en JSX.
+
+5.
+Usando el hook useState, si tienes
+
+const [valor, setValor] = useState(10);
+
+¿Cuál es la forma correcta de actualizar valor a 11?
+
+Respuesta (A): Incorrecto. Esto es una mutación directa del estado y no funcionará. La variable de estado es una constante y no puede ser reasignada. Revisa la Lección 12: Hook - useState, en el minuto 04:05.
+
+Respuesta (B): Incorrecto. Esto es incorrecto. El estado es de solo lectura y nunca debe mutarse directamente. Hacerlo no provocará un re-renderizado y puede causar comportamientos inesperados. Revisa la Lección: Hook - useState, en el minuto 04:05.
+
+Respuesta (C): Correcto. Esta es la manera correcta. La función actualizadora (setValor) es la única que debe usarse para cambiar el estado, lo que provoca un nuevo renderizado del componente.
+
+Respuesta (D): Incorrecto. Esto no actualizará el estado existente. useState solo se usa para la inicialización del estado en el primer renderizado. Revisa la Lección 12: Hook - useState, en el minuto 04:05.
+
+6.
+Verdadero o Falso: Si intentas renderizar una variable booleana directamente en JSX, como en
+
+<h1>{unaVariableBooleana}</h1>
+
+React mostrará en pantalla el texto "true" o "false".
+
+Respuesta (A): Incorrecto. React no renderiza los valores booleanos. Para mostrar algo basado en un booleano, necesitas usar un operador ternario u otra forma de lógica condicional. Revisa la Lección 6: Impresión de variables, en el minuto 04:32.
+
+Respuesta (B): Correcto. Los valores booleanos (true, false), null y undefined no producen ninguna salida visual en React. Esto es útil para el renderizado condicional.
+
+7.
+Verdadero o Falso: Para usar CSS Modules en un proyecto de React, el archivo de estilos debe llamarse
+
+[NombreComponente].css.
+
+Respuesta (A): Incorrecto. Un archivo llamado [NombreComponente].css se tratará como una hoja de estilos global. Para que funcione como un módulo, debe incluir .module en su nombre. Revisa la Lección: Archivos de CSS, en el minuto 06:32.
+
+Respuesta (B): Correcto. La convención de nomenclatura para activar CSS Modules es [NombreComponente].module.css. La parte .module es la que indica que los estilos deben ser encapsulados.
+
+8.
+Al renderizar una lista de elementos con .map(), ¿por qué se considera una mala práctica usar el index del arreglo como la key?
+
+Respuesta (A): Correcto. Esta es la razón principal. La key debe ser un identificador estable y único asociado al contenido del elemento, no a su posición en la lista.
+
+Respuesta (B): Incorrecto. Aunque puede causar problemas de rendimiento, el problema principal es la posible inconsistencia de datos y estado, no la velocidad en sí. Revisa la Lección: Mostrar listados de elementos, en el minuto 05:24.
+
+Respuesta (C): Incorrecto. La key puede ser un string o un número. El problema no es el tipo de dato, sino la estabilidad del identificador. Revisa la Lección: Mostrar listados de elementos, en el minuto 05:24.
+
+Respuesta (D): Incorrecto. Sigue siendo una mala práctica fuertemente desaconsejada en la documentación actual de React por los problemas de estado que puede causar. Revisa la Lección: Mostrar listados de elementos, en el minuto 05:24.
+
+9.
+Verdadero o Falso: Al asignar una función a un evento como onClick, la forma correcta es invocar la función directamente en el JSX:
+
+onClick={miFuncion()}.
+
+Respuesta (A): Incorrecto. Al usar (), la función se ejecuta inmediatamente durante el renderizado del componente, en lugar de esperar al evento de clic. Esto casi siempre es un error. Revisa la Lección: Eventos de los elementos, en el minuto 04:32.
+
+Respuesta (B): Correcto. Se debe pasar la referencia a la función (onClick={miFuncion}). Invocarla con () la ejecutaría en cada renderizado, no solo cuando ocurra el evento de clic.
+
+10.
+En una estructura de proyecto de Vite con React, ¿cuál es el propósito principal de la carpeta public?
+
+Respuesta (A): Incorrecto. Los componentes reutilizables y todo el código fuente de la aplicación deben ir dentro de la carpeta src. Revisa la Lección: Estructura de directorios - Parte 2, en el minuto 02:30.
+
+Respuesta (B): Correcto. Exacto. Los archivos en la carpeta public se copian tal cual a la raíz del directorio de compilación, siendo accesibles directamente desde el HTML.
+
+Respuesta (C): Incorrecto. Aunque podrías poner un CSS ahí, la forma recomendada de manejar estilos globales es importándolos en tu archivo de entrada principal, como main.tsx, desde la carpeta src. Revisa la Lección: Estructura de directorios - Parte 2, en el minuto 02:30.
+
+Respuesta (D): Incorrecto. La carpeta de caché de Vite se encuentra dentro de node_modules/.vite y no es la carpeta public. Revisa la Lección: Estructura de directorios - Parte 2, en el minuto 02:30.
