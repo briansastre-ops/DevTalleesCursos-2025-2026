@@ -1,28 +1,40 @@
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
+
 import { MyAwesomeApp } from "./MyAwesomeApp";
 
 describe("MyAwesomeApp", () => {
   test("should render firstName and lastName", () => {
-    const { container } = render(MyAwesomeApp);
+    const { container } = render(<MyAwesomeApp />);
+    // screen.debug();
+    // console.log(container.innerHTML);
 
-    console.log(screen.debug());
     const h1 = container.querySelector("h1");
     const h3 = container.querySelector("h3");
-    console.log(h1);
 
     expect(h1?.innerHTML).toContain("Fernando");
     expect(h3?.innerHTML).toContain("Herrera");
-    // console.log(container.innerHTML); // Línea comentada en la imagen
   });
-  test("should render firstName and lastName", () => {
-    render(MyAwesomeApp);
 
+  test("should render firstName and lastName - screen", () => {
+    render(<MyAwesomeApp />);
     screen.debug();
-    //const h1 = screen.getByRole("heading", {
-    //level: 1,
-    //});
+    // console.log(container.innerHTML);
+
+    // const h1 = screen.getByRole('heading', {
+    //   level: 1,
+    // });
     const h1 = screen.getByTestId("first-name-title");
-    console.log(h1.innerHTML);
+    expect(h1.innerHTML).toContain("Fernando");
+  });
+
+  test("should match snapshot", () => {
+    const { container } = render(<MyAwesomeApp />);
+    expect(container).toMatchSnapshot();
+  });
+
+  test("should match snapshot", () => {
+    render(<MyAwesomeApp />);
+    expect(screen.getByTestId("div-app")).toMatchSnapshot();
   });
 });
