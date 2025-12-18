@@ -1,34 +1,33 @@
-import PreviousSearches from "./gifs/components/PreviousSearches";
-import CustomHeader from "./shared/components/CustomHeader";
-import { SearchBar } from "./shared/components/SearchBar";
-import GifsList from "./gifs/components/GifsList";
-import { useGifs } from "./gifs/hooks/useGifs";
+import { GifList } from './gifs/components/GifList';
+import { PreviousSearches } from './gifs/components/PreviousSearches';
+
+import { CustomHeader } from './shared/components/CustomHeader';
+import { SearchBar } from './shared/components/SearchBar';
+
+import { useGifs } from './gifs/hooks/useGifs';
 
 export const GifsApp = () => {
-  const { gifs, previousTerms, handleTermClicked, handleSearch } = useGifs();
+  const { handleSearch, previousTerms, handleTermClicked, gifs } = useGifs();
+
   return (
     <>
-      {/* <-- Header--> */}
+      {/* Header */}
       <CustomHeader
         title="Buscador de Gifs"
-        descrption="Descubre y encuentra el gif perfecto"
-      />
-      {/* <-- Search --> */}
-      <SearchBar
-        placeholder="Buscar lo que quieras..."
-        onQuery={handleSearch}
+        description="Descubre y comparte el Gif perfecto"
       />
 
-      {/* <-- BUsquedas Previas --> */}
+      {/* Search */}
+      <SearchBar placeholder="Busca lo que quieras" onQuery={handleSearch} />
+
+      {/* Búsquedas previas */}
       <PreviousSearches
         searches={previousTerms}
-        onLabelClick={handleTermClicked}
+        onLabelClicked={handleTermClicked}
       />
 
-      {/* <-- Gifs Resultados --> */}
-      <GifsList gifs={gifs} />
+      {/* Gifs */}
+      <GifList gifs={gifs} />
     </>
   );
 };
-
-export default GifsApp;

@@ -1,17 +1,13 @@
-import React from "react";
-
 interface Props {
   title: string;
-  descrption?: string;
+  description?: string;
 }
 
-const CustomHeader = ({ title, descrption }: Props) => {
+export const CustomHeader = ({ title, description }: Props) => {
   return (
     <div className="content-center">
       <h1>{title}</h1>
-      {descrption && <p>{descrption}</p>}
+      {description && <p>{description}</p>}
     </div>
   );
 };
-
-export default CustomHeader;
