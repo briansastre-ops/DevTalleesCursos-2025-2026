@@ -1,0 +1,101 @@
+1.
+¿Cuál es el principal beneficio de integrar la ejecución de pruebas automáticas directamente en el script de build de una aplicación?
+
+Respuesta (A): Incorrecto. La velocidad de las pruebas no se ve afectada por estar en el script de build. El objetivo es la validación, no la velocidad. Para más detalles, revisa la Lección: Integrar pruebas con la versión de producción.
+
+Respuesta (B): Incorrecto. Aunque se podría configurar, el objetivo principal no es validar el código. El reporte se suele generar con un comando separado (npm run coverage). Para más detalles, revisa la Lección: Porcentaje de cobertura.
+
+Respuesta (C): Correcto. Esta es la práctica estándar en Integración Continua (CI/CD). Si las pruebas fallan, el proceso de construcción se detiene, evitando que se publique una versión con errores.
+
+Respuesta (D): Incorrecto. Las dependencias de testing ya deben estar instaladas en el entorno de desarrollo o en el servidor de CI antes de ejecutar el build. Para más detalles, revisa la Lección: Configuración de pruebas.
+
+2.
+Al probar un componente que utiliza un custom hook complejo, ¿cuál es la principal ventaja de crear una simulación (mock) del hook en lugar de usar su implementación real?
+
+Respuesta (A): Incorrecto. Es posible probar componentes usando la implementación real del hook, lo que se conoce como una prueba de integración. Para más detalles, revisa la Lección: Componentes con custom hooks.
+
+Respuesta (B): Correcto. Hacer un mock del hook (vi.mock) permite simular diferentes escenarios (ej. un estado de carga, un error, datos específicos) y probar la reacción del componente de forma aislada y predecible.
+
+Respuesta (C): Incorrecto. El número de renders depende de las interacciones y actualizaciones de estado, no de si el hook es real o simulado.
+
+Respuesta (D): Incorrecto. Tanto las pruebas con hooks reales como con mocks se apoyan en herramientas de Testing Library como render y screen. Para más detalles, revisa la Lección: Simular estado de un Custom Hook.
+
+3.
+¿Por qué es fundamental envolver en la función act() las acciones que provocan una actualización de estado en un componente de React durante una prueba?
+
+Respuesta (A): Incorrecto. La asincronía de la prueba se maneja con async/await, no con act(). La función act() se centra en el ciclo de vida de las actualizaciones de React. Para más detalles, revisa la Lección: Pruebas sobre 'Custom Hooks'.
+
+Respuesta (B): Correcto. React actualiza el DOM de forma asíncrona. act() asegura que las aserciones se ejecuten solo después de que el componente se haya re-renderizado completamente, evitando resultados incorrectos o inconsistentes.
+
+Respuesta (C): Incorrecto. Los eventos de usuario se simulan con fireEvent. La función act() se usa para envolver el código que causa la actualización de estado, que a menudo es una consecuencia de un fireEvent. Para más detalles, revisa la Lección: Componentes con custom hooks.
+
+Respuesta (D): Incorrecto. Los snapshots se generan con toMatchSnapshot(), una función completamente diferente de act(). Para más detalles, revisa la Lección: Configuración de pruebas.
+
+4.
+Al probar una funcionalidad con un retardo de tiempo (ej. un debounce con setTimeout), ¿por qué se prefiere usar waitFor de Testing Library en lugar de una espera con tiempo fijo (ej. new Promise con un setTimeout)?
+
+Respuesta (A): Incorrecto. waitFor sí espera, pero de forma inteligente, reintentando la aserción hasta que se cumple o se agota un tiempo de espera, lo que lo hace más eficiente que una espera fija. Para más detalles, revisa la Lección: Pruebas sobre efectos y debounce, alrededor del minuto 00:08:04.
+
+Respuesta (B): Incorrecto. Aunque puede ser más conciso, la razón principal de su uso es la robustez de la prueba, no la brevedad del código.
+
+Respuesta (C): Correcto. Si el tiempo del debounce cambia de 700ms a 800ms, una prueba con una espera fija de 701ms fallaría. waitFor se adapta y espera el tiempo necesario, haciendo la prueba más mantenible.
+
+Respuesta (D): Incorrecto. Se pueden probar useEffect sin waitFor si los efectos son síncronos. waitFor es específicamente para esperar actualizaciones asíncronas en el DOM.
+
+5.
+¿Cuál es un beneficio clave de usar una librería como axios-mock-adapter al probar funciones que realizan peticiones HTTP?
+
+Respuesta (A): Incorrecto. El propósito del mock adapter es precisamente evitar cualquier petición de red real, ya sea a producción o a un entorno de prueba. Para más detalles, revisa la Lección: Axios mock adapter - Controlar resultados de Axios.
+
+Respuesta (B): Correcto. Permite un control total sobre el escenario de prueba, simulando respuestas exitosas con datos específicos o diferentes tipos de errores (404, 500, etc.) para verificar que la aplicación los maneja correctamente.
+
+Respuesta (C): Incorrecto. La seguridad del api_key no es una función del mock adapter. Se debe gestionar a través de variables de entorno.
+
+Respuesta (D): Incorrecto. El mock adapter solo simula la respuesta cruda de la API. La transformación de esos datos sigue siendo responsabilidad del código de la aplicación.
+
+6.
+Verdadero o Falso: Cuando se utiliza una herramienta como Vitest, es una buena práctica aislar el estado de cada prueba para evitar que el resultado de una afecte a la siguiente, lo cual se puede lograr usando el hook de ciclo de vida beforeEach.
+
+Respuesta (A): Correcto (Verdadero). Las pruebas deben ser independientes. Si una prueba modifica un estado (ej. un custom hook) que es compartido entre varias pruebas, puede causar resultados impredecibles en las pruebas subsecuentes. beforeEach se ejecuta antes de cada test, permitiendo resetear el estado y asegurar un punto de partida limpio para cada una.
+
+Respuesta (B): Incorrecto.
+
+7.
+¿Cuál es el propósito principal de usar un "espía" (vi.spyOn) sobre un método existente, como console.error?
+
+Respuesta (A): Incorrecto. Un espía no modifica permanentemente el método; su efecto se limita al ámbito de la prueba y se puede restaurar. Para más detalles, revisa la Lección: Espías y sobre escritura de métodos.
+
+Respuesta (B): Correcto. Un espía actúa como un "observador" que registra las interacciones con un método. Aunque se le puede añadir una implementación mock, su propósito fundamental es espiar las llamadas.
+
+Respuesta (C): Incorrecto. Un espía no elimina el método; lo envuelve para monitorearlo.
+
+Respuesta (D): Incorrecto. Si bien se puede usar .mockImplementation() para cambiar el comportamiento, el propósito central de "espiar" es la observación.
+
+8.
+Cuando se intenta verificar que un elemento no está presente en el DOM, ¿por qué una consulta como screen.getByRole('dialog') no es adecuada y cuál es una alternativa común?
+
+Respuesta (A): Incorrecto. getByRole busca en todo el DOM renderizado, no solo en elementos visibles.
+
+Respuesta (B): Incorrecto. La alternativa es usar una consulta `findAllBy...` (ej. `findAllByRole`) que es la única que devuelve un array vacío (`[]`) si no encuentra el elemento. Las consultas `findAllBy...` son asíncronas y están diseñadas para esperar a que un elemento aparezca, no para verificar su ausencia inmediata. La consulta síncrona apropiada para verificar la ausencia es `queryBy...`.
+
+Respuesta (C): Incorrecto. La velocidad no es el problema principal. El problema es que getBy está diseñado para fallar si no encuentra el elemento.
+
+Respuesta (D): Correcto. La lección explica que getByRole lanza una excepción si no encuentra el elemento. Se enseña como alternativa el uso de container.querySelector('p'), que devuelve null si no encuentra el elemento, permitiendo hacer una aserción como expect(p).toBeNull(). Para más detalles, revisa la Lección: Pruebas sobre CustomHeader, alrededor del minuto 00:07:22.
+
+9.
+Verdadero o Falso: Un reporte de cobertura de pruebas del 100% significa que la aplicación está libre de errores lógicos.
+
+Respuesta (A): Incorrecto. Para más detalles, revisa la Lección: Porcentaje de cobertura, que explica lo que realmente mide un reporte de cobertura.
+
+Respuesta (B): Correcto (Falso). El reporte de cobertura solo indica qué líneas de código se ejecutaron durante las pruebas. No puede verificar si la lógica es correcta o si se han considerado todos los casos de uso posibles. Una función puede tener 100% de cobertura y aun así contener un error lógico que las pruebas no detectaron.
+
+10.
+Al configurar un pipeline de CI/CD, ¿por qué se utiliza el comando vitest run en lugar de simplemente vitest?
+
+Respuesta (A): Incorrecto. Ambos comandos pueden ejecutar pruebas en paralelo. La diferencia clave es el modo de ejecución.
+
+Respuesta (B): Incorrecto. El reporte de cobertura se genera con una bandera específica (--coverage), no por el comando run. Para más detalles, revisa la Lección: Porcentaje de cobertura.
+
+Respuesta (C): Correcto. Un pipeline automático necesita que cada paso (como el de testing) finalice para poder continuar con el siguiente (como el build). El modo "watch" de vitest se quedaría "colgado", deteniendo el pipeline.
+
+Respuesta (D): Incorrecto. El entorno de pruebas se define en el archivo de configuración de Vite/Vitest, no por el comando que se ejecuta. Para más detalles, revisa la Lección: Configuración de pruebas.
