@@ -1,0 +1,104 @@
+1.
+¿Cuál es la principal diferencia entre usar useState y useRef para almacenar un valor en un componente de React?
+
+Respuesta (A): Incorrecto. Aunque un uso muy común de useRef es para acceder a elementos del DOM, también puede almacenar cualquier valor mutable (como un número o un objeto) que necesite persistir entre renderizados sin causar una nueva renderización. Revisa la Lección: useRef - Valor que no dispara re-render, especialmente alrededor del minuto 00:03:05.
+
+Respuesta (B): Correcto. Esta es la diferencia fundamental. useState está diseñado para manejar datos que, al cambiar, deben reflejarse en la UI, por lo que dispara un re-render. useRef es para mantener datos que no deben causar una actualización de la UI cuando cambian.
+
+Respuesta (C): Incorrecto. useState puede manejar perfectamente estados complejos como objetos y arreglos, no está limitado a valores primitivos.
+
+Respuesta (D): Incorrecto. Tienen propósitos y comportamientos muy diferentes y no son intercambiables. La elección depende de si el cambio en el valor debe o no provocar una actualización visual.
+
+2.
+Al utilizar useEffect para manejar suscripciones o temporizadores (como un setInterval), ¿cuál es el propósito fundamental de la función de limpieza que se retorna?
+
+Respuesta (A): Incorrecto. El código que se ejecuta una sola vez al montar el componente es el cuerpo principal del useEffect cuando su array de dependencias está vacío ([]). La función de limpieza se ejecuta al desmontar.
+
+Respuesta (B): Incorrecto. La función de limpieza no retorna ningún valor al exterior; su propósito es únicamente realizar una acción de "limpieza".
+
+Respuesta (C): Correcto. Este es el objetivo principal de la función de limpieza. Si no se limpiaran los temporizadores o suscripciones, seguirían ejecutándose en segundo plano incluso después de que el componente haya sido eliminado de la UI, causando fugas de memoria y errores. Puedes ver la demostración de este problema y su solución en la Lección: useEffect - Disparar efectos secundarios, alrededor del minuto 00:08:13.
+
+Respuesta (D): Incorrecto. La actualización del estado se realiza dentro del cuerpo del setInterval, no en la función de limpieza.
+
+3.
+¿Cuál es el beneficio principal de extraer la lógica de un componente (múltiples useState y useEffect) a un Custom Hook (ej. useTrafficLight)?
+
+Respuesta (A): Incorrecto. Los Custom Hooks no ofrecen una mejora de rendimiento inherente; son una herramienta de organización y abstracción de código.
+
+Respuesta (B): Incorrecto. La restricción sobre async/await está en useEffect, y esto no cambia al moverlo a un Custom Hook.
+
+Respuesta (C): Correcto. Los Custom Hooks son la herramienta principal en React para empaquetar y reutilizar lógica con estado. Esto permite que los componentes se enfoquen en cómo se ve la UI, mientras que la lógica compleja vive en el hook, pudiendo ser usada en múltiples componentes.
+
+Respuesta (D): Incorrecto. Se pueden usar tantos useEffect como se necesiten directamente en un componente. De hecho, es una buena práctica hacerlo si cada uno tiene una responsabilidad diferente.
+
+4.
+Verdadero o Falso: Según las buenas prácticas, es preferible tener un único y gran useEffect que maneje todas las lógicas secundarias de un componente, en lugar de múltiples useEffect más pequeños y especializados.
+
+Respuesta (A): Incorrecto. La recomendación es exactamente la opuesta. Se deben crear "efectos atómicos", es decir, tener varios useEffect donde cada uno tiene una única responsabilidad bien definida (ej. uno para un temporizador, otro para una petición a una API). Esto hace el código mucho más fácil de leer, depurar y mantener. Esta buena práctica se explica en la Lección: Recomendaciones del useEffect, a partir del minuto 00:02:46.
+
+Respuesta (B): Correcto.
+
+5.
+¿Por qué es una buena práctica en TypeScript especificar un tipo genérico a useState (ej. useState<TrafficLightColor>('red')) en lugar de dejar que infiera el tipo string?
+
+Respuesta (A): Incorrecto. Al contrario, especificar un tipo más estricto ('red' | 'yellow' | 'green') limita los valores posibles en lugar de ampliarlos.
+
+Respuesta (B): Correcto. Al definir un tipo literal, le decimos a TypeScript que el estado solo puede ser uno de los valores especificados. Esto nos da seguridad en tiempo de compilación y una mejor experiencia de desarrollo. El concepto se aborda en la Lección: Tipado estricto en useState, desde el inicio (00:00:13).
+
+Respuesta (C): Incorrecto. React renderizará el componente perfectamente con tipos inferidos. El tipado explícito es una herramienta para la robustez y mantenibilidad del código, no una necesidad para el renderizado.
+
+Respuesta (D): Incorrecto. Para permitir null o undefined, se deberían añadir explícitamente al tipo, como por ejemplo <MyType | null>. El genérico por sí solo no añade null.
+
+6.
+¿Por qué no se puede declarar la función callback de un useEffect directamente como async
+
+(ej. useEffect(async () => { ... }))?
+
+Respuesta (A): Incorrecto. La razón no está relacionada con el rendimiento, sino con el tipo de valor que retorna la función.
+
+Respuesta (B): Correcto. Una función declarada como async envuelve implícitamente su retorno en una Promesa. useEffect, sin embargo, requiere que el valor de retorno sea una función (para la limpieza) o undefined. Al retornar una Promesa, se viola esta regla. La forma correcta es definir una función async dentro del efecto y llamarla. Esta explicación se da en la Lección: Conectar varios Custom Hooks entre sí, cerca del minuto 00:08:15.
+
+Respuesta (C): Incorrecto. La restricción aplica de igual manera dentro de un Custom Hook.
+
+Respuesta (D): Incorrecto. Aunque fetch retorna una promesa, la sintaxis async/await se usa para manejar esas promesas de una manera más legible, pero no se puede usar directamente en el callback de useEffect.
+
+7.
+En el ejemplo de la PokemonPage, ¿cómo se logra la comunicación entre el useCounter y el usePokemon?
+
+Respuesta (A): Incorrecto. En el ejercicio no se utiliza estado global ni Context API para esta comunicación.
+
+Respuesta (B): Correcto. Esta es la forma más común y directa de conectar hooks: el componente que los utiliza orquesta el flujo de datos. Obtiene la salida de un hook y la usa como entrada para otro. Cuando la salida del primero cambia, el componente se re-renderiza, pasando el nuevo valor al segundo hook. Este flujo se construye en la Lección: Parte 2 - Conectar varios Custom Hooks, a partir del minuto 00:01:53.
+
+Respuesta (C): Incorrecto. Los hooks son funciones aisladas; no tienen conocimiento directo de otros hooks a menos que se les pase información a través de argumentos.
+
+Respuesta (D): Incorrecto. useRef no se utilizó para este propósito en el ejercicio; se usó props (argumentos) para pasar la información.
+
+8.
+Al crear un Custom Hook, ¿cuál es la ventaja de exponer "propiedades computadas" (ej. un percentage ya calculado o una formattedId) en lugar de solo los datos crudos del estado?
+
+Respuesta (A): Incorrecto. Sí tiene un impacto práctico muy positivo en la legibilidad y mantenibilidad del código.
+
+Respuesta (B): Correcto. Esta práctica refuerza la separación de responsabilidades. El componente solo pide los datos que necesita mostrar, ya listos para usar, sin preocuparse de cómo se calculan o formatean. Toda esa lógica vive en un solo lugar: el hook.
+
+Respuesta (C): Incorrecto. No hay una diferencia de rendimiento inherente. La ventaja es principalmente de arquitectura y organización del código.
+
+Respuesta (D): Incorrecto. Las propiedades computadas son de solo lectura; son el resultado de un cálculo sobre el estado interno del hook, no un estado en sí mismas.
+
+9.
+La función para actualizar un estado de useState (ej. setCount) puede recibir un nuevo valor directamente. ¿Qué otra cosa puede recibir y para qué es útil?
+
+Respuesta (A): Incorrecto. La función de actualización no acepta un objeto de configuración.
+
+Respuesta (B): Incorrecto. No se le puede pasar una promesa directamente. Las acciones asíncronas se manejan fuera y se llama a la función de actualización una vez que la promesa se resuelve.
+
+Respuesta (C): Correcto. Pasar una función (ej. setCount(prevCount => prevCount + 1)) es la forma recomendada para actualizar el estado cuando el nuevo valor se basa en el anterior. Esto asegura que siempre se esté trabajando con el valor más reciente del estado, evitando problemas en actualizaciones rápidas o por lotes. Se menciona en la Lección: useState - Estado que re-dibuja, alrededor del minuto 00:08:32.
+
+Respuesta (D): Incorrecto. No existe tal mecanismo para sincronizar estados de esa manera.
+
+10.
+Verdadero o Falso: Si en modo de desarrollo (React.StrictMode) un console.log dentro de un useEffect aparece dos veces en la consola, significa que hay un error en el código que causará una doble ejecución en producción.
+
+Respuesta (A): Incorrecto. Este es un comportamiento intencional y exclusivo del modo estricto en el entorno de desarrollo. React invoca a propósito dos veces ciertas funciones (incluyendo los efectos y sus funciones de limpieza) para ayudar a los desarrolladores a encontrar "efectos secundarios impuros" y otros bugs potenciales. Este comportamiento no ocurre en producción, donde todo se ejecuta una sola vez como se esperaría.
+
+Respuesta (B): Correcto.
+
