@@ -1,5 +1,4 @@
-import { ref } from "process";
-import React, { useRef } from "react";
+import { useRef } from "react";
 
 export const FocusScreen = () => {
   const inputRef = useRef<HTMLInputElement>(null);
