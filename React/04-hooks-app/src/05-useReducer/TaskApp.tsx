@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { Plus, Trash2, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,9 @@ export const TasksApp = () => {
   /// const [todos, setTodos] = useState<Todo[]>([]);
 
   const [state, dispatch] = useReducer(taskReducer, getTaskInitialState());
+  useEffect(() => {
+    localStorage.setItem("tasks-state", JSON.stringify(state));
+  }, [state]);
 
   const addTodo = () => {
     if (inputValue.length === 0) return;
@@ -56,11 +59,11 @@ export const TasksApp = () => {
                 placeholder="Añade una nueva tarea..."
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={handleKeyPress}
+                onkeydown={handleKeyPress}
                 className="flex-1 border-slate-200 focus:border-slate-400 focus:ring-slate-400"
               />
               <Button
-                onClick={addTodo}
+                onclick={addTodo}
                 className="bg-slate-800 hover:bg-slate-700 text-white px-4"
               >
                 <Plus className="w-4 h-4" />
