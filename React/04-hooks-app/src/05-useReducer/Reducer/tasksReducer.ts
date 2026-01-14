@@ -1,48 +1,87 @@
-interface todo {
+import * as z from "zod";
+
+// --- Interfaces y Tipos ---
+interface Todo {
   id: number;
   text: string;
   completed: boolean;
 }
 
 interface TaskState {
-  todos: todo[];
+  todos: Todo[];
   length: number;
   completed: number;
   pending: number;
 }
 
-export type taskAction =
+export type TaskAction =
   | { type: "ADD_TODO"; payload: string }
   | { type: "TOGGLE_TODO"; payload: number }
   | { type: "DELETE_TODO"; payload: number };
 
+// --- Schemas de Zod ---
+const todoSchema = z.object({
+  id: z.number(),
+  text: z.string(),
+  completed: z.boolean(),
+});
+
+const taskStateSchema = z.object({
+  todos: z.array(todoSchema),
+  length: z.number(),
+  completed: z.number(),
+  pending: z.number(),
+});
+
+// --- Estado Inicial ---
 export const getTaskInitialState = (): TaskState => {
-  const localSoterageState = localStorage.getItem("tasks-state");
-  if (!localSoterageState) {
-    return {
-      todos: [],
-      length: 0,
-      completed: 0,
-      pending: 0,
-    };
-    return JSON.parse(localSoterageState);
+  const defaultState: TaskState = {
+    todos: [],
+    length: 0,
+    completed: 0,
+    pending: 0,
+  };
+
+  // 1.typo: localStorageState
+  const localStorageState = localStorage.getItem("tasks-state");
+
+  // 2.: Quitamos el return inalcanzable
+  if (!localStorageState) {
+    return defaultState;
+  }
+
+  try {
+    // 3.: Parseamos el JSON antes de validarlo con Zod
+    const parsedState = JSON.parse(localStorageState);
+    const result = taskStateSchema.safeParse(parsedState);
+
+    // 4.: Lógica invertida. Si NO es exitoso, retornamos default.
+    if (!result.success) {
+      console.error("Error validando estado:", result.error);
+      return defaultState;
+    }
+
+    // Si es exitoso, retornamos los datos validados
+    return result.data;
+  } catch (error) {
+    console.error("Error parseando JSON:", error);
+    return defaultState;
   }
 };
 
+// --- Reducer ---
 export const taskReducer = (
   state: TaskState,
-  action: taskAction
+  action: TaskAction
 ): TaskState => {
-  // tratar de regresar el nuevo estado segun la accion, sino va el return
   switch (action.type) {
     case "ADD_TODO": {
-      const newTodo: todo = {
+      const newTodo: Todo = {
         id: Date.now(),
         text: action.payload,
         completed: false,
       };
-      //!NO SE DEBE HACER ESTO:
-      //state.todos.push(newTodo); NO SE DEBE MODIFICAR EL ESTADO DIRECTAMENTE, porqeu se muta y react no lo reconoce
+
       return {
         ...state,
         todos: [...state.todos, newTodo],
@@ -50,9 +89,11 @@ export const taskReducer = (
         pending: state.pending + 1,
       };
     }
+
     case "DELETE_TODO": {
+      // 5.: !== para mantener los que NO son el ID a borrar
       const currentTodos = state.todos.filter(
-        (todo) => todo.id === action.payload
+        (todo) => todo.id !== action.payload
       );
 
       return {
@@ -71,6 +112,7 @@ export const taskReducer = (
         }
         return todo;
       });
+
       return {
         ...state,
         todos: updateTodos,
@@ -81,6 +123,5 @@ export const taskReducer = (
 
     default:
       return state;
-    // siempre se pone un DEFAULT para que regrese un objeto si no entra en ningun case
   }
 };

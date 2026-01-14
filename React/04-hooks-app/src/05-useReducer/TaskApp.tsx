@@ -59,11 +59,11 @@ export const TasksApp = () => {
                 placeholder="Añade una nueva tarea..."
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                onkeydown={handleKeyPress}
+                onKeyDown={handleKeyPress}
                 className="flex-1 border-slate-200 focus:border-slate-400 focus:ring-slate-400"
               />
               <Button
-                onclick={addTodo}
+                onClick={addTodo}
                 className="bg-slate-800 hover:bg-slate-700 text-white px-4"
               >
                 <Plus className="w-4 h-4" />
