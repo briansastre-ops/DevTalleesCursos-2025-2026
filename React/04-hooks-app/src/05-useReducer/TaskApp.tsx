@@ -17,7 +17,7 @@ export const TasksApp = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [inputValue, setInputValue] = useState("");
 
-  const addTodo = () => {
+const addTodo = () => {
     if (inputValue.length === 0) return;
     const newTodo: Todo = {
       id: Date.now(),
@@ -25,15 +25,8 @@ export const TasksApp = () => {
       completed: false,
     };
 
-    setTodos([...todos, newTodo]);
-
-    //setTodos((prev) => [...prev, newTodo]);
-
+    setTodos((prev) => [...prev, newTodo]);
     setInputValue("");
-  };
-
-  const addTodo = () => {
-    console.log("Agregar tarea", inputValue);
   };
 
   const toggleTodo = (id: number) => {
