@@ -8,6 +8,7 @@ import { TasksApp } from "./05-useReducer/TaskApp";
 //import { TrafficLightWithHook } from "./02-useEffect/TrafficLigthWithHook";
 //import { PokemonPage } from "./03-examples/PokemonPage";
 //import { FocusScreen } from "./04-useRef/FocusScreen";
+import { ScrambleWords } from "./05-useReducer/Reducer/ScrambleWords";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -17,6 +18,7 @@ createRoot(document.getElementById("root")!).render(
     {/* <TrafficLightWithHook /> */}
     {/* <PokemonPage /> */}
     {/*<FocusScreen />*/}
-    <TasksApp />
+    {/*<TasksApp />*/}
+    <ScrambleWords />
   </StrictMode>
 );

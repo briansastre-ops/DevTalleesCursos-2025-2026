@@ -53,7 +53,7 @@ export const getTaskInitialState = (): TaskState => {
   try {
     // 3.: Parseamos el JSON antes de validarlo con Zod
     const parsedState = JSON.parse(localStorageState);
-    const result = taskStateSchema.safeParse(parsedState);
+    const result = taskStateSchema.safeParseopen);
 
     // 4.: Lógica invertida. Si NO es exitoso, retornamos default.
     if (!result.success) {
