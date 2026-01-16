@@ -9,6 +9,7 @@ export interface ScrambleWordsState {
   scrambledWord: string;
   skipCounter: number;
   words: string[];
+  totalWords: number;
 }
 
 export type ScrambleWordsAction = {
@@ -48,7 +49,7 @@ const scrambleWord = (word: string = "") => {
     .join("");
 };
 
-export const getInitialState = (): ScrambleWordsSatet => {
+export const getInitialState = (): ScrambleWordsState => {
   const ShuffleWords = shuffleArray([...GAME_WORDS]);
 
   return {
@@ -62,6 +63,7 @@ export const getInitialState = (): ScrambleWordsSatet => {
     scrambledWord: scrambleWord(ShuffleWords[0]),
     skipCounter: 0,
     words: ShuffleWords,
+    totalWords: ShuffleWords.length,
   };
 };
 
