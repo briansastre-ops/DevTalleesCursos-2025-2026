@@ -7,12 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { SkipForward, Play } from "lucide-react";
-import { getInitialState, scrambleWordsReducer } from "./ScrambleWordsReducer";
+import { getInitialState, ScrambleWordsReducer } from "./ScrambleWordsReducer";
 
 export const ScrambleWords = () => {
   ///reducer aqui
-  const [state, dispatch] = useReducer(scrambleWordsReducer, getInitialState());
-
+  const [state, dispatch] = useReducer(ScrambleWordsReducer, getInitialState());
   const {
     words,
     currentWord,
@@ -189,7 +188,11 @@ export const ScrambleWords = () => {
                     type="text"
                     value={guess}
                     onChange={(e) => {
-                      console.log(e.target.value);
+                      dispatch({
+                        type: "SET_GUESS",
+                        payload: e.target.value,
+                      });
+                      //console.log(e.target.value);
                     }}
                     placeholder="Ingresa tu palabra..."
                     className="text-center text-lg font-semibold h-12 border-2 border-indigo-200 focus:border-indigo-500 transition-colors"
