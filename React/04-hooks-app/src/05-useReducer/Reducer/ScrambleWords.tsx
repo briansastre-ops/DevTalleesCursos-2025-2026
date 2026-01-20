@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { SkipForward, Play } from "lucide-react";
+import confetti from "canvas-confetti";
 import { getInitialState, ScrambleWordsReducer } from "./ScrambleWordsReducer";
 
 export const ScrambleWords = () => {
@@ -26,99 +27,45 @@ export const ScrambleWords = () => {
     totalWords,
   } = state;
 
-  // const [words, setWords] = useState(shuffleArray(GAME_WORDS));
-
-  // const [currentWord, setCurrentWord] = useState(words[0]);
-  // const [scrambledWord, setScrambledWord] = useState(scrambleWord(currentWord));
-  // const [guess, setGuess] = useState("");
-  // const [points, setPoints] = useState(0);
-  // const [errorCounter, setErrorCounter] = useState(0);
-  // const [maxAllowErrors, setMaxAllowErrors] = useState(3);
-
-  // const [skipCounter, setSkipCounter] = useState(0);
-  // const [maxSkips, setMaxSkips] = useState(3);
-
-  // const [isGameOver, setIsGameOver] = useState(false);
-
   //   // Previene el refresh de la página
 
   const handleGuessSubmit = (e: React.FormEvent) => {
     // Previene el refresh de la página
     e.preventDefault();
     // Implementar lógica de juego
-    console.log("Intento de adivinanza:", guess, currentWord);
+    dispatch({ type: "CHECK_ANSWER" });
+
+    if (guess === currentWord) {
+      confetti({
+        particleCount: 100,
+        spread: 120,
+        origin: { y: 0.6 },
+      });
+    }
   };
 
   const handleSkip = () => {
     // Skip
-    console.log("Skip action");
+
+    dispatch({ type: "SKIP_WORD" });
   };
 
   const handlePlayAgain = () => {
     // Reiniciar el juego
-    console.log("Play again action");
+    dispatch({ type: "START_NEW_GAME", payload: getInitialState() });
   };
 
-  //   e.preventDefault();
-  //   // Implementar lógica de juego
-  //   //console.log("Intento de adivinanza:", guess, currentWord);
-
-  //   if (guess === currentWord) {
-  //     confeti({
-  //       particleCount: 100,
-  //       spread: 120,
-  //       origin: { y: 0.6 },
-  //     });
-
-  //     const remainingWords = words.slice(1);
-  //     setPoints(points + 1);
-  //     setGuess("");
-  //     setWords(remainingWords);
-  //     setCurrentWord(remainingWords[0]);
-  //     setScrambledWord(scrambleWord(remainingWords[0]));
-  //     return;
-  //   }
-
-  //   setErrorCounter(errorCounter + 1);
-  //   setGuess("");
-
-  //   if (errorCounter + 1 >= maxAllowErrors) {
-  //     setIsGameOver(true);
-  //   }
-  // };
-
-  // const handleSkip = () => {
-  //   // Skip
-  //   if (skipCounter + 1 >= maxSkips) return;
-  //   const remainingWords = words.slice(1);
-  //   setSkipCounter(skipCounter + 1);
-  //   setWords(remainingWords);
-  //   setCurrentWord(remainingWords[0]);
-  //   setScrambledWord(scrambleWord(remainingWords[0]));
-  //   setGuess("");
-  // };
-
-  // const handlePlayAgain = () => {
-  //   //reiniciar el juego
-  //   setPoints(0);
-  //   setErrorCounter(0);
-  //   setSkipCounter(0);
-  //   setWords(shuffleArray(GAME_WORDS));
-  //   setCurrentWord(GAME_WORDS[0]);
-  //   setScrambledWord(scrambleWord(GAME_WORDS[0]));
-  //   setGuess("");
-  //   setIsGameOver(false);
-  // };
-
   //! Si ya no hay palabras para jugar, se muestra el mensaje de fin de juego
-  if (words.length === 0) {
+  if (words.length === 0 || isGameOver) {
     return (
       <div className="min-h-screen bg-linear-to-br from-purple-100 via-blue-50 to-indigo-100 flex items-center justify-center p-4">
         <div className="w-full max-w-md mx-auto">
           <h1 className="text-4xl font-bold bg-linear-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
             Palabras desordenadas
           </h1>
-          <p className="text-gray-600">No hay palabras para jugar</p>
+          <p className="text-gray-600">
+            {words.length === 0 ? "¡Ganaste el juego!" : "Game Over"}
+          </p>
           <br />
           <div>Puntaje: {points}</div>
           <br />

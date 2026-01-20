@@ -1,0 +1,103 @@
+1.
+¿Cuál es el principal escenario en el que se recomienda usar el hook useReducer en lugar de múltiples useState?
+
+Respuesta (A): Incorrecto. useState es perfectamente adecuado para manejar objetos y arreglos simples. La elección de useReducer no se basa en el tipo de dato, sino en la complejidad de las transiciones de estado. Para más detalles, revisa la Lección: Lista de tareas con useState.
+
+Respuesta (B): Correcto. El gran beneficio de useReducer es centralizar la lógica de estado. Cuando una acción (como "enviar respuesta" en el juego de palabras) necesita modificar la puntuación, los errores, la palabra actual y el estado del juego, un reducer lo maneja en un solo lugar de forma predecible y organizada.
+
+Respuesta (C): Incorrecto. Una regla fundamental de los reducers es que deben ser funciones puras. Esto significa que no deben contener efectos secundarios, como llamadas a APIs o cualquier lógica asíncrona. Para más detalles, revisa la Lección: Introducción, alrededor del minuto 00:01:38.
+
+Respuesta (D): Incorrecto. La elección entre useState y useReducer es una decisión de arquitectura y mantenibilidad del código, no de rendimiento. No hay una diferencia de velocidad significativa entre ellos para la mayoría de los casos de uso. Para más detalles, revisa la Lección: Introducción.
+
+2.
+Verdadero o Falso: Una función reducer puede realizar efectos secundarios (como llamar a una API o ejecutar una animación) directamente dentro de su lógica para mantener el código centralizado y simple.
+
+Respuesta (A): Incorrecto. Esto viola el principio fundamental de los reducers.
+
+Respuesta (B): Correcto. Las funciones reducer deben ser puras, lo que significa que su salida debe depender únicamente de sus entradas (estado y acción) y no deben tener efectos observables en el exterior, como modificar variables globales o realizar llamadas de red. Los efectos secundarios se gestionan en el componente usando el hook useEffect en respuesta a los cambios de estado. Para más detalles, revisa la Lección: Efectos secundarios con un reducer.
+
+3.
+¿Cuál es la principal diferencia en el enfoque de shadcn/ui en comparación con librerías de componentes más tradicionales como Material-UI o Bootstrap?
+
+Respuesta (A): Correcto. Esta es su característica distintiva. En lugar de importar componentes desde un paquete de terceros, te conviertes en el dueño del código del componente, lo que te permite modificarlo y adaptarlo a tus necesidades sin restricciones.
+
+Respuesta (B): Incorrecto. Aunque la configuración se mostró con Vite, shadcn/ui es compatible con otros frameworks como Next.js, Remix, etc. Simplemente requiere una configuración específica para cada uno. Para más detalles, revisa la Lección: Continuación de proyecto - useReducer.
+
+Respuesta (C): Incorrecto. Esta es una confusión común. shadcn/ui utiliza una librería "headless" (Radix UI) para la lógica y la accesibilidad, pero sí provee un estilo visual muy definido y estético a través de Tailwind CSS. Para más detalles, revisa la Lección: Shadcn/UI - Qué acabamos de instalar, alrededor del minuto 00:01:40.
+
+Respuesta (D): Incorrecto. shadcn/ui está construido con TypeScript en mente y se integra perfectamente con proyectos de TypeScript, aprovechando al máximo el tipado estricto. Para más detalles, revisa la Lección: Shadcn/UI - Qué acabamos de instalar.
+
+4.
+Al actualizar un estado que es un arreglo en React (tanto con useState como con useReducer), ¿por qué se debe evitar el uso de métodos que mutan el arreglo original, como .push() o .splice()?
+
+Respuesta (A): Incorrecto. La razón principal no es el rendimiento, sino la forma en que funciona el mecanismo de detección de cambios de React.
+
+Respuesta (B): Incorrecto. TypeScript no prohíbe el uso de estos métodos; es una regla de la biblioteca React, no del lenguaje.
+
+Respuesta (C): Incorrecto. La inmutabilidad es un principio de diseño para un manejo de estado predecible, no una medida de seguridad.
+
+Respuesta (D): Correcto. React realiza una comparación superficial (por referencia) para decidir si el estado ha cambiado. Si modificas el contenido del arreglo original con .push(), la referencia en memoria del arreglo sigue siendo la misma, por lo que React asume que nada ha cambiado y no activa una nueva renderización. Al crear un nuevo arreglo (ej. [...viejosTodos, nuevoTodo]), se genera una nueva referencia, lo que le indica a React que el estado ha cambiado. Para más detalles, revisa la Lección: Configuración de la función reducer, alrededor del minuto 00:05:00.
+
+5.
+¿Por qué es necesario usar JSON.stringify() para guardar un objeto de estado en LocalStorage y JSON.parse() para recuperarlo?
+
+Respuesta (A): Incorrecto. JSON.stringify crea una representación de texto plano del objeto; no realiza ninguna encriptación. De hecho, los datos en LocalStorage son fácilmente legibles por el usuario. Para más detalles, revisa la Lección: Persistencia local - LocalStorage, alrededor del minuto 00:07:46.
+
+Respuesta (B): Correcto. La API de LocalStorage del navegador está diseñada para almacenar únicamente pares de clave-valor donde ambos son strings. JSON.stringify() convierte un objeto JavaScript en una cadena de texto con formato JSON, y JSON.parse() hace el proceso inverso.
+
+Respuesta (C): Incorrecto. Estos métodos no realizan ninguna compresión de datos. Su única función es la conversión de formato.
+
+Respuesta (D): Incorrecto. Esta es una limitación de la API web del navegador, no tiene relación directa con React o sus hooks. Para más detalles, revisa la Lección: Persistencia local - LocalStorage, alrededor del minuto 00:01:23.
+
+6.
+¿Cuál es el propósito principal de usar una librería como Zod para validar los datos que se leen desde una fuente externa como LocalStorage?
+
+Respuesta (A): Correcto. Como el LocalStorage puede ser modificado por el usuario, la aplicación no puede confiar en que los datos tendrán la estructura esperada. Zod permite definir un "esquema" y verificar que los datos recuperados cumplan con él antes de ser utilizados, evitando así que datos inesperados (como la falta de un id) rompan la aplicación.
+
+Respuesta (B): Incorrecto. Zod complementa a TypeScript. Mientras que las interfaces de TypeScript aseguran el tipado en tiempo de desarrollo, Zod asegura el tipado y la estructura en tiempo de ejecución, que es cuando los datos externos e impredecibles entran a la aplicación.
+
+Respuesta (C): Incorrecto. La validación con Zod añade un pequeño paso extra al proceso, por lo que técnicamente no lo acelera, pero el beneficio en robustez y seguridad supera con creces este mínimo costo.
+
+Respuesta (D): Incorrecto. Aunque Zod tiene funcionalidades de "coerción" (forzar tipos), su propósito principal no es la conversión, sino la validación. La validación es el acto de confirmar que los datos ya tienen el formato correcto. Para más detalles, revisa la Lección: Validadores de objetos - Zod.
+
+7.
+En el patrón Reducer, ¿qué representa el payload de una acción?
+
+Respuesta (A): Incorrecto. El estado anterior es el primer argumento que recibe la función reducer, comúnmente llamado state. Para más detalles, revisa la Lección: Patrón Reducer, alrededor del minuto 00:01:25.
+
+Respuesta (B): Incorrecto. El nombre de la acción es la propiedad type del objeto de la acción.
+
+Respuesta (C): Correcto. El payload contiene la información contextual que la acción necesita. Por ejemplo, para una acción ADD_TODO, el payload sería el texto de la nueva tarea. Para una acción TOGGLE_TODO, el payload sería el id de la tarea a modificar.
+
+Respuesta (D): Incorrecto. El payload es data, no lógica. La lógica sobre cómo usar ese payload reside dentro del case correspondiente en el reducer. Para más detalles, revisa la Lección: Patrón Reducer, alrededor del minuto 00:08:27.
+
+8.
+Si un reducer no debe contener efectos secundarios, ¿cuál es la forma correcta de ejecutar una animación (confetti) después de que el usuario adivina una palabra correctamente en el juego?
+
+Respuesta (A): Incorrecto. Esto violaría la pureza del reducer. Un reducer solo debe calcular y devolver el siguiente estado. Para más detalles, revisa la Lección: Lógica del reducer, alrededor del minuto 00:05:03.
+
+Respuesta (B): Correcto. Este es el patrón recomendado. La lógica del estado vive en el reducer, y los efectos secundarios viven en el componente, reaccionando a los cambios de ese estado a través de useEffect. Esto mantiene una separación de responsabilidades clara y el reducer puro.
+
+Respuesta (C): Incorrecto. El estado de React debe ser serializable (convertible a JSON). Almacenar funciones en el estado es un anti-patrón y puede llevar a comportamientos inesperados.
+
+Respuesta (D): Incorrecto. Aunque es posible, es una solución demasiado compleja. No soluciona el problema de fondo (dónde ejecutar el efecto) y añade una acción innecesaria. El patrón useEffect es mucho más directo y eficiente. Para más detalles, revisa la Lección: Efectos secundarios con un reducer.
+
+9.
+¿Cuál es el propósito principal del caso default dentro de la estructura switch de un reducer?
+
+Respuesta (A): Incorrecto. El objetivo principal de un reducer es gestionar el estado de forma predecible. Devolver el estado actual sin cambios previene que la aplicación se rompa, lo cual es la práctica recomendada en lugar de lanzar un error. Para más detalles, revisa la Lección: Configuración de la función reducer, alrededor del minuto 00:02:48.
+
+Respuesta (B): Incorrecto. Una acción específica, como limpiar o resetear el estado, debería tener su propio case definido (por ejemplo, case 'RESET_STATE':). El caso default está diseñado para manejar cualquier acción que no tenga un case específico. Para más detalles, revisa la Lección: Configuración de la función reducer, alrededor del minuto 00:02:48.
+
+Respuesta (C): Correcto. Esta es la función fundamental del caso default. Un reducer tiene la regla estricta de que siempre debe devolver un estado válido. Si recibe una acción para la cual no está preparado, el default asegura que se devuelva el estado actual (return state;), manteniendo la estabilidad y previsibilidad de la aplicación.
+
+Respuesta (D): Incorrecto. Lejos de ser una formalidad, el caso default es una pieza clave y obligatoria en la lógica de un reducer para garantizar su robustez y cumplir con su contrato de devolver siempre un estado, sin importar la acción recibida. Para más detalles, revisa la Lección: Configuración de la función reducer, alrededor del minuto 00:02:48.
+
+10.
+Al usar useReducer, ¿por qué a menudo es preferible usar una función (getInitialState()) para generar el estado inicial en lugar de un objeto estático?
+
+Respuesta (A): Incorrecto. React permite perfectamente pasar un objeto literal como estado inicial.
+
+Respuesta (B): Incorrecto. La diferencia de memoria es insignificante y no es la razón para esta práctica.
+
+Respuesta (C): Incorrecto. Tanto los objetos literales como el valor de retorno de una función pueden ser tipados correctamente.
