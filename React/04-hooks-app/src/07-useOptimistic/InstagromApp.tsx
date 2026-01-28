@@ -1,31 +1,62 @@
-import { useState } from "react";
-import { text } from "stream/consumers";
+import { startTransition, useOptimistic, useState, useTransition } from "react";
+import { set } from "zod";
+
+import { toast } from "sonner";
 
 interface Comment {
   id: number;
   text: string;
   optimistic?: boolean;
 }
-
+let lastId = 2;
 export const InstagromApp = () => {
+  const [isPending, startTransition] = useTransition();
+
   const [comments, setComments] = useState<Comment[]>([
     { id: 1, text: "¡Gran foto!" },
     { id: 2, text: "Me encanta 🧡" },
   ]);
 
+  const [optimisticComments, addOptimisticComment] = useOptimistic(
+    comments,
+    (currentComments, newComments: string) => {
+      lastId++;
+      return [
+        ...currentComments,
+        {
+          id: lastId,
+          text: newComments,
+          optimistic: true,
+        },
+      ];
+    },
+  );
+
   const handleAddComment = async (formData: FormData) => {
     const messageText = formData.get("post-message");
 
-    console.log("Nuevo comentario");
+    addOptimisticComment(messageText as string);
 
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    startTransition(async () => {
+      console.log("Nuevo comentario");
+      //Simular  la peticion http al servidor
+      await new Promise((resolve) => setTimeout(resolve, 3000));
 
-    console.log("Mensaje procesado:", messageText);
+      console.log("Mensaje procesado:", messageText);
+      //
 
-    setComments((prevComments) => [
-      ...prevComments,
-      { id: new Date().getTime(), text: messageText as string },
-    ]);
+      //! Este seria el codigo para revertir el Proceso , si falla  la solicitur optimista  debo regresar al estado anterior
+      setComments((prev) => prev);
+      toast("Sucedio un error al enviar el comentario", {
+        description: "Intenta nuevamente mas tarde",
+        duration: 10_000,
+        position: "top-right",
+        action: {
+          label: "cerrar",
+          onClick: () => toast.dismiss(),
+        },
+      });
+    });
   };
 
   return (
@@ -44,7 +75,7 @@ export const InstagromApp = () => {
 
       {/* Comentarios */}
       <ul className="flex flex-col items-start justify-center bg-gray-300 w-[500px] p-4">
-        {comments.map((comment) => (
+        {optimisticComments.map((comment) => (
           <li key={comment.id} className="flex items-center gap-2 mb-2">
             <div className="bg-blue-500 rounded-full w-10 h-10 flex items-center justify-center">
               <span className="text-white text-center">A</span>
@@ -71,7 +102,7 @@ export const InstagromApp = () => {
         />
         <button
           type="submit"
-          disabled={false}
+          disabled={isPending}
           className="bg-blue-500 text-white p-2 rounded-md w-full"
         >
           Enviar
