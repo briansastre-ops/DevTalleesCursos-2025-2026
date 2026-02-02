@@ -1,0 +1,101 @@
+1.
+¿Cuál es el problema principal que resuelve la función React.memo al envolver un componente?
+
+Respuesta (A): Incorrecto. De hecho, pasar funciones como props puede ser lo que rompa la optimización de React.memo si no se manejan correctamente con useCallback. Para más detalles, revisa la Lección: useCallback - Memorización de funciones.
+
+Respuesta (B): Correcto. React.memo realiza una comparación superficial de las props del componente. Si las props son las mismas que en el renderizado anterior, React omite el re-render del componente y reutiliza el resultado anterior, lo cual es una optimización clave.
+
+Respuesta (C): Incorrecto. La persistencia del estado interno a través de los renders es la responsabilidad de hooks como useState o useReducer, no de React.memo.
+
+Respuesta (D): Incorrecto. React.memo es un Optimizador de Componentes de Orden Superior (HOC) diseñado específicamente para componentes funcionales. Para más detalles, revisa la Lección: React Memo - Función de memorización.
+
+2.
+¿Por qué es necesario usar el hook useCallback al pasar una función como prop a un componente hijo que está optimizado con React.memo?
+
+Respuesta (A): Incorrecto. El hook useCallback no tiene relación con si una función es síncrona o asíncrona. Su único propósito es la memorización.
+
+Respuesta (B): Incorrecto. Aunque el arreglo de dependencias de useCallback se usa para actualizar la función cuando las props o el estado cambian, su propósito principal es mantener la referencia estable, no garantizar el acceso a datos actualizados.
+
+Respuesta (C): Correcto. React.memo compara las props por referencia. Una función definida dentro de un componente se crea de nuevo en cada render, cambiando su referencia. useCallback devuelve la misma referencia de función entre renders (si sus dependencias no cambian), permitiendo que React.memo funcione correctamente. Para más detalles, revisa la Lección: useCallback - Memorización de funciones, alrededor del minuto 00:02:23.
+
+Respuesta (D): Incorrecto. Cualquier función definida en el padre y pasada como prop a un hijo puede modificar el estado del padre, independientemente de si se usa useCallback o no.
+
+3.
+¿En qué situación es más apropiado utilizar el hook useMemo?
+
+Respuesta (A): Correcto. El propósito de useMemo es almacenar en caché el resultado de una función. La función solo se volverá a ejecutar si una de las dependencias especificadas ha cambiado, lo cual es ideal para optimizar cálculos pesados que no necesitan correr en cada render.
+
+Respuesta (B): Incorrecto. Para memorizar una función completa (su referencia), se utiliza useCallback. Para más detalles, revisa la Lección: useMemo - Memorización de valores, alrededor del minuto 00:06:01.
+
+Respuesta (C): Incorrecto. Para almacenar un valor que persiste entre renders sin causar una nueva renderización, se utiliza el hook useRef.
+
+Respuesta (D): Incorrecto. Para manejar efectos secundarios en respuesta a cambios en las dependencias, se utiliza el hook useEffect.
+
+4.
+¿Cuál es la principal ventaja de usar useOptimistic para manejar la UI al enviar datos a un servidor?
+
+Respuesta (A): Incorrecto. useOptimistic es una herramienta del lado del cliente que no afecta el rendimiento ni el contenido de la petición real enviada al servidor.
+
+Respuesta (B): Incorrecto. Aunque useOptimistic maneja el estado "enviando...", no elimina la necesidad de saber si la transacción general está en curso, algo para lo que useTransition es más adecuado.
+
+Respuesta (C): Incorrecto. La ejecución de peticiones en paralelo no es el propósito principal de useOptimistic.
+
+Respuesta (D): Correcto. Este hook mejora drásticamente la experiencia del usuario al hacer que la aplicación se sienta instantánea. El usuario ve su acción reflejada de inmediato, y si algo sale mal en el fondo, el hook se encarga de revertir la UI al estado correcto automáticamente. Para más detalles, revisa la Lección: Introducción, alrededor del minuto 00:01:02.
+
+5.
+Verdadero o Falso: El hook useTransition se utiliza principalmente para crear animaciones fluidas en los componentes de React, como las transiciones de CSS.
+
+Respuesta (A): Incorrecto. El nombre puede ser confuso, pero no tiene relación con animaciones visuales.
+
+Respuesta (B): Correcto. El propósito de useTransition es marcar ciertas actualizaciones de estado como "no urgentes". Esto permite que React mantenga la interfaz de usuario interactiva y sin bloqueos mientras se procesan cambios de estado que podrían ser lentos o pesados, además de proporcionar un estado isPending para mostrar indicadores de carga. Para más detalles, revisa la Lección: useTransition, alrededor del minuto 00:02:00.
+
+6.
+¿Cuál es una diferencia fundamental entre la nueva API use y los hooks tradicionales como useState o useEffect?
+
+Respuesta (A): Correcto. A diferencia de los hooks, que tienen reglas estrictas sobre dónde pueden ser llamados, la API use no es un hook y puede ser utilizada dentro de lógica condicional (if), bucles (for), o al inicio de un componente, lo que le da mayor flexibilidad.
+
+Respuesta (B): Incorrecto. Aunque use es muy útil en Server Components, también se puede usar en Client Components en conjunto con <Suspense>.
+
+Respuesta (C): Incorrecto. La API use está diseñada para "desenvolver" el valor tanto de una Promise como de un Context. Para más detalles, revisa la Lección: Use API + Suspense en acción, alrededor del minuto 00:02:35.
+
+Respuesta (D): Incorrecto. use sí participa en el ciclo de vida del renderizado. Cuando la promesa que consume se resuelve, provoca que el componente se vuelva a renderizar para mostrar el dato obtenido.
+
+7.
+¿Cuál es la función del componente <Suspense> cuando se trabaja con componentes que obtienen datos de forma asíncrona (por ejemplo, con la API use)?
+
+Respuesta (A): Incorrecto. <Suspense> no realiza ninguna petición de datos. Solo reacciona cuando un componente hijo "suspende" su renderizado mientras espera datos.
+
+Respuesta (B): Incorrecto. El manejo de errores de renderizado en React se realiza tradicionalmente con un componente llamado ErrorBoundary, no con <Suspense>.
+
+Respuesta (C):Correcto. <Suspense> te permite desacoplar el estado de carga de tus componentes. Envuelves un componente asíncrono en <Suspense> y le proporcionas una prop fallback. React mostrará el fallback hasta que el componente hijo resuelva su promesa y esté listo para renderizarse. Para más detalles, revisa la Lección: Use API + Suspense en acción, alrededor del minuto 00:00:24.
+
+Respuesta (D): Incorrecto. La memorización o "cacheo" de datos para evitar peticiones repetidas es responsabilidad de librerías de fetching de datos como TanStack Query o SWR, o de implementaciones manuales, no del componente <Suspense>.
+
+8.
+¿Qué acción provoca que useOptimistic revierta automáticamente la UI a su estado anterior?
+
+Respuesta (A): Incorrecto. La interacción del usuario no afecta el mecanismo de rollback de useOptimistic.
+
+Respuesta (B): Correcto. El hook funciona comparando el estado optimista con el estado "real" que se le proporcionó. Si la operación asíncrona termina pero el estado real nunca se actualiza para coincidir con la actualización optimista (como en el caso de un fallo simulado), React descarta el estado optimista y vuelve a renderizar con el estado real. Para más detalles, revisa la Lección: Simular fallo en useOptimistic + sonner, alrededor del minuto 00:01:46.
+
+Respuesta (C): Incorrecto. El rollback es una característica automática del hook; no hay una función explícita que deba ser llamada para revertir el estado.
+
+Respuesta (D): Incorrecto. Si bien un error en la promesa es la causa del fallo, el rollback en sí no se activa por el catch, sino por el hecho de que el estado real (useState) no se actualiza como resultado de ese error.
+
+9.
+Verdadero o Falso: Una función definida fuera del cuerpo de un componente de React no necesita ser memorizada con useCallback porque su referencia en memoria es estable y no cambia entre renderizados del componente.
+
+Respuesta (A): Correcto. useCallback resuelve el problema de que las funciones se recrean en cada render dentro del cuerpo del componente. Si una función es pura (no depende de props o state del componente) y se define fuera del componente, se crea una sola vez cuando el módulo de JavaScript es evaluado. Su referencia nunca cambia, por lo que es seguro pasarla como prop a componentes memorizados sin necesidad de useCallback. Para más detalles, revisa la Lección: useCallback - Memorización de funciones, alrededor del minuto 00:07:35.
+
+Respuesta (B): Incorrecto. Esta es una técnica de optimización válida y recomendada cuando es aplicable.
+
+10.
+¿Cuál es la diferencia fundamental entre useMemo y useCallback?
+
+Respuesta (A): Incorrecto. useMemo puede memorizar cualquier tipo de valor, incluyendo objetos, arreglos o el resultado de un JSX, no solo primitivos.
+
+Respuesta (B): Incorrecto. Ambos hooks se ejecutan durante la fase de renderizado de React.
+
+Respuesta (C): Incorrecto. Ambos hooks requieren un arreglo de dependencias para saber cuándo deben recalcular el valor o recrear la función.
+
+Respuesta (D): Correcto. Esta es la distinción clave. Usa useMemo cuando tienes un cálculo costoso y quieres guardar su resultado. Usa useCallback cuando quieres pasar una función a un componente hijo optimizado y necesitas que su referencia no cambie. De hecho, useCallback(fn, deps) es equivalente a useMemo(() => fn, deps). Para más detalles, revisa la Lección: useMemo - Memorización de valores, alrededor del minuto 00:06:01.
