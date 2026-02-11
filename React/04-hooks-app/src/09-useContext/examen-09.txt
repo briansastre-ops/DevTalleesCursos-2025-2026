@@ -1,0 +1,101 @@
+.
+¿Qué es el "prop drilling" y por qué el Context API de React se considera una solución a este problema?
+
+Respuesta (A): Incorrecto. El "prop drilling" no es una técnica de optimización; de hecho, es considerado un anti-patrón que puede hacer que el código sea más difícil de mantener.
+
+Respuesta (B): Correcto. El "prop drilling" obliga a componentes intermedios a recibir y pasar props que no utilizan, solo para que un descendiente pueda acceder a ellas. El Context API crea un "túnel" directo desde el proveedor de datos hasta el consumidor, sin importar cuántos niveles haya en medio. Para más detalles, revisa la Lección: Introducción, alrededor del minuto 00:00:13.
+
+Respuesta (C): Incorrecto. El problema no es la cantidad de props en un solo componente, sino la necesidad de pasarlas a través de componentes que no las necesitan.
+
+Respuesta (D): Incorrecto. El prop drilling no funciona para componentes hermanos. La solución tradicional para hermanos es "levantar el estado" a un ancestro común, lo cual es precisamente lo que el Context API ayuda a gestionar de una manera más elegante.
+
+2.
+Verdadero o Falso: Para la navegación interna en una Single-Page Application (SPA) construida con React Router, es preferible usar la etiqueta <a> en lugar del componente <Link> porque es más rápido y compatible con todos los navegadores.
+
+Respuesta (A): Incorrecto. Usar una etiqueta <a> es perjudicial para la experiencia de una SPA.
+
+Respuesta (B): Correcto. Utilizar una etiqueta <a> con href causa una recarga completa del navegador, perdiendo todo el estado del lado del cliente. El componente <Link> de React Router previene este comportamiento, maneja la navegación de forma interna y actualiza la UI sin recargar la página, que es el objetivo de una SPA. Para más detalles, revisa la Lección: Navegar entre pantallas - Diseño de páginas, alrededor del minuto 00:02:01.
+
+3.
+¿Cuál es el propósito fundamental de un componente "Proveedor" (Provider) en el ecosistema de React, como el RouterProvider o un UserContextProvider personalizado?
+
+Respuesta (A): Correcto. Un "Provider" es un componente cuyo rol principal es actuar como la fuente de un contexto. Cualquier componente que se renderice como descendiente de este proveedor podrá "suscribirse" y leer los datos que este provee.
+
+Respuesta (B): Incorrecto. Aunque un proveedor puede renderizar elementos HTML, su propósito principal no es estructural o visual, sino proveer datos. De hecho, a menudo un proveedor solo renderiza a sus children sin añadir ningún div propio. Para más detalles, revisa la Lección: Contextos y proveedores en React, alrededor del minuto 00:02:55.
+
+Respuesta (C): Incorrecto. El orden de renderizado lo determina React basándose en la estructura del árbol de componentes, no el proveedor.
+
+Respuesta (D): Incorrecto. El componente diseñado para capturar y manejar errores en sus descendientes es un ErrorBoundary, no un Provider de contexto.
+
+4.
+Al crear un contexto con createContext y usar su Provider, ¿qué representa la prop value?
+
+Respuesta (A): Incorrecto. La prop value contiene el valor actual del contexto. Si este valor está conectado a un estado (useState o useReducer) en el componente proveedor, cambiará cada vez que el estado cambie, y todos los componentes consumidores se volverán a renderizar.
+
+Respuesta (B): Incorrecto. El acceso al contexto se realiza a través de los hooks useContext o use, no llamando a una función en la prop value.
+
+Respuesta (C): Incorrecto. Los componentes hijos se pasan a través de la prop children, no de value.
+
+Respuesta (D): Correcto. Todo lo que se pase en la prop value del proveedor estará disponible para cualquier componente descendiente que consuma ese contexto. Es el "payload" de datos que el proveedor distribuye. Para más detalles, revisa la Lección: Contexto de usuario - Información global.
+
+5.
+¿Cuál de las siguientes afirmaciones describe mejor la razón por la que la API use es ahora la forma recomendada de consumir un contexto sobre el hook useContext?
+
+Respuesta (A): Incorrecto. La diferencia de rendimiento no es la razón principal; el beneficio clave es la ergonomía y flexibilidad del desarrollador.
+
+Respuesta (B): Incorrecto. useContext puede consumir perfectamente contextos que proveen tanto datos como funciones.
+
+Respuesta (C): Correcto. Los hooks tienen reglas estrictas (solo se pueden llamar en el nivel superior de un componente). La API use no tiene estas restricciones, lo que permite leer un contexto de forma condicional, por ejemplo, dentro de un if, haciendo el código más limpio en ciertos escenarios. Para más detalles, revisa la Lección: Contexto de usuario - Información global, alrededor del minuto 00:01:37.
+
+Respuesta (D): Incorrecto. useContext no está obsoleto y seguirá funcionando. Simplemente, use se presenta como una alternativa más moderna y flexible para el mismo propósito.
+
+6.
+Si un estado de autenticación se gestiona en un Context Provider usando useState, ¿por qué se pierde la sesión del usuario al recargar la página?
+
+Respuesta (A): Correcto. El estado de React es volátil y solo vive durante la sesión de la página. Cuando se recarga el navegador, todo el estado en memoria de JavaScript se pierde, y los componentes se inicializan de nuevo con sus valores por defecto. Para solucionar esto, se necesita un almacenamiento persistente como LocalStorage. Para más detalles, revisa la Lección: Persistencia del usuario, alrededor del minuto 00:00:17.
+
+Respuesta (B): Incorrecto. React Router está diseñado para funcionar con el Contexto de React y no interfiere con él durante la navegación entre rutas.
+
+Respuesta (C): Incorrecto. El proveedor, si está colocado por encima del router, no se desmonta durante la navegación entre las páginas que renderiza el router.
+
+Respuesta (D): Incorrecto. El garbage collector elimina objetos que ya no son referenciados, pero el estado del contexto siempre está referenciado mientras la aplicación esté activa.
+
+7.
+¿Por qué es una buena práctica derivar un valor booleano como isAuthenticated a partir del authStatus ('checking', 'authenticated') dentro del Context Provider?
+
+Respuesta (A): Incorrecto. Los componentes pueden leer cualquier tipo de dato válido desde un contexto.
+
+Respuesta (B): Correcto. Esto es un principio de encapsulación. Los componentes que consumen el contexto no necesitan saber sobre el estado checking; solo les importa si el usuario está o no autenticado. Al proveer un isAuthenticated simple, se crea una API de contexto más limpia y fácil de usar, y si la lógica de los estados internos cambia en el futuro, los componentes consumidores no se verán afectados. Para más detalles, revisa la Lección: Diseño condicional dependiendo de la sesión, alrededor del minuto 00:02:22.
+
+Respuesta (C): Incorrecto. Si bien es técnicamente cierto, la diferencia de rendimiento es completamente insignificante. El principal beneficio es la claridad y mantenibilidad del código.
+
+Respuesta (D): Incorrecto. TypeScript permite el renderizado condicional basado en cualquier tipo de dato que pueda ser evaluado como verdadero o falso, no solo booleanos.
+
+8.
+¿Cuál es la lógica principal de un componente PrivateRoute utilizado para proteger rutas?
+
+Respuesta (A): Incorrecto. Un componente de ruta privada no se encarga de la lógica de autenticación en sí misma; su única responsabilidad es leer el estado de autenticación ya existente (del contexto) y tomar una decisión de enrutamiento.
+
+Respuesta (B): Incorrecto. La protección de rutas en el cliente se basa en el renderizado condicional y la redirección, no en la encriptación.
+
+Respuesta (C): Incorrecto. El componente PrivateRoute consume el contexto global existente; no crea uno nuevo.
+
+Respuesta (D): Correcto. Actúa como un "guardián". Envuelve la ruta protegida y, basándose en el estado del UserContext, o permite el paso renderizando el componente solicitado, o bloquea el acceso redirigiendo al usuario a otra parte. Para más detalles, revisa la Lección: Rutas privadas y públicas.
+
+9.
+Verdadero o Falso: Al usar el "modo de data" de React Router con createBrowserRouter, las rutas se definen como un arreglo de objetos JavaScript en lugar de componentes JSX anidados.
+
+Respuesta (A): Correcto. Esta es una de las características que definen el "modo de data" (Data Mode). Las rutas se configuran en un archivo JavaScript/TypeScript como un arreglo de objetos, donde cada objeto define un path y un element, entre otras propiedades. Esto contrasta con el modo declarativo más antiguo, que utiliza componentes JSX como <Routes> y <Route> para definir la estructura. Para más detalles, revisa la Lección: React Router - Manejo de rutas, alrededor del minuto 00:04:21.
+
+Respuesta (B): Incorrecto. Esto es precisamente cómo funciona el "modo de data".
+
+10.
+¿Para qué se utiliza el componente <Navigate> de React Router en la implementación de rutas?
+
+Respuesta (A): Correcto. El componente <Navigate> es una forma declarativa de realizar una redirección. Cuando React renderiza este componente, React Router intercepta y navega a la ruta especificada en la prop to. Es muy útil para casos como rutas privadas o para manejar rutas "comodín" (catch-all). Para más detalles, revisa la Lección: React Router - Manejo de rutas, alrededor del minuto 00:08:53.
+
+Respuesta (B): Incorrecto. Para crear enlaces en los que el usuario hace clic, se utiliza el componente <Link>.
+
+Respuesta (C): Incorrecto. Para acceder a la información de la ruta actual, se utilizan hooks como useLocation y useParams.
+
+Respuesta (D): Incorrecto. La carga de datos para rutas se maneja con las propiedades loader en la configuración del router, no con el componente <Navigate>.

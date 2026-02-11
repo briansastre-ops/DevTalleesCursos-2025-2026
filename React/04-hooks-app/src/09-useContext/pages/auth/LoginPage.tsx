@@ -1,4 +1,4 @@
-import { userContext } from "@/09-useContext/Context/userContext";
+import { UserContext } from "@/09-useContext/Context/userContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React, { useContext, useState } from "react";
@@ -6,7 +6,9 @@ import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 
 export const LoginPage = () => {
-  const { login } = useContext(userContext);
+  const { login } = useContext(UserContext) as {
+    login: (id: number) => boolean;
+  };
 
   const navigation = useNavigate();
 
@@ -37,7 +39,7 @@ export const LoginPage = () => {
           onChange={(event) => setUserID(event.target.value)}
         />
 
-        <Button ClassName="w-full" type="submit">
+        <Button className="w-full" type="submit">
           Login
         </Button>
       </form>
